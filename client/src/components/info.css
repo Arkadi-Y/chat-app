@@ -1,0 +1,38 @@
+.infobar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: cyan;
+    border-radius: 4px 4px 0 0;
+    height: 50px;
+    width: 100%;
+}
+
+.leftContain{
+    flex: 0.5;
+    display: flex;
+    align-items: center;
+    margin-left: 2%;
+    color: whitesmoke;
+}
+.rigthContain{
+    flex: 0.5;
+    display: flex;
+    align-items: flex-end;
+    margin-right: 2%;
+  
+}
+.onlineimg{
+    margin-right: 5%;
+}
+
+.infobar img{
+    width: 50px;
+}
+.iconref{
+    font-size: xx-small;
+    color: rgba(0, 0, 0, 0.2);
+}
+.iconref a{
+    color: inherit;
+}

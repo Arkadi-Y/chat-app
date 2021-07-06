@@ -1,6 +1,11 @@
 import React,{useEffect,useState,useCallback} from 'react'
+import Info from './Info'
+import Input from './Input'
 import queryString from 'query-string'
 import io from 'socket.io-client'
+import './Chat.css'
+import Messeges from './Messeges'
+import UserContainer from './UserContainer'
 let socket;
 
 
@@ -9,6 +14,7 @@ const Chat = ({location}) => {
     const [room,setRoom]=useState('')
     const [message,setMessage]=useState('')
     const [messages,setMessages]=useState([])
+    const [userList,setUserList]=useState([])
     const ENDPOINT = "localhost:5000"
     useEffect(()=>{
         const {name,room}=queryString.parse(location.search)
@@ -37,6 +43,9 @@ const Chat = ({location}) => {
             socket.emit('sendMessage',message,()=>setMessage(''))
         }
     }
+    const hendaleUserData = (data)=>{
+        setUserList(data.users);
+    }
     useEffect(()=>{
         try{
         socket.on('message',(msg)=>{handleMsg(msg)});
@@ -48,6 +57,16 @@ const Chat = ({location}) => {
         }
 
     },[messages])
+    useEffect(()=>{
+        socket.on('roomData',(data)=>{
+            hendaleUserData(data);
+        })
+        return()=>{
+            socket.off('roomData',(data)=>{
+                hendaleUserData(data);
+            })
+        }
+    },[userList])
 
 
     
@@ -55,10 +74,10 @@ const Chat = ({location}) => {
     return (
         <div className="outer-container">
             <div className="container">
-                <input value={message} onChange={(e)=>setMessage(e.target.value)} 
-                onKeyPress={e=>e.key==='Enter' ? sendMessage(e):null}>
-                </input>
-
+                <Info room={room}/>
+                <Messeges messeges={messages}name={name}/>
+                <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
+                <UserContainer users={userList}/>
             </div>
         </div>
     )

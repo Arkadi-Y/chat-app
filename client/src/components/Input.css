@@ -1,0 +1,22 @@
+.form{
+    display: flex;
+    border-top: 2px solid wheat;
+}
+.input{
+    border: none;
+    padding: 3%;
+    width: 70%;
+    font-size: 1.2em;
+}
+input:focus, textarea:focus,select:focus{
+    outline: none;
+}
+.sendBtn{
+    color: aliceblue !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: cyan;
+    padding: 10px;
+    display: inline-block;
+    width: 20%;
+}
