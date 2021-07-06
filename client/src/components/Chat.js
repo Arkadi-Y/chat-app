@@ -26,34 +26,21 @@ const Chat = ({location}) => {
             socket.off();
         }
     },[ENDPOINT,location.search]);
-    const msg = (message) => {
-        console.log(message,'in useefect')
-    }
-        
-    useEffect(()=>{socket.on('message', msg)
-    return()=>{
-        socket.off('message',msg);
-    }},[])
-    useEffect(()=>{
-        console.log('useEFECT')
-        
-       
-    },[messages]);
-
-
-    /*const msg = useCallback(
-        () => {
-            setMessages(messages=>[...messages,message]);
-        },
-        [messages])
-
-    useEffect(()=>{
-        socket.on('message',msg);
-        return ()=>{
-            socket.off('message',msg);
-        }
-    },[])*/
    
+    function handleMsg(msg){
+        console.log("handle msg",msg);
+        setMessages([...messages,msg])
+    }
+
+    useEffect(()=>{
+        socket.on('message',(message)=>{handleMsg(message)});
+        return()=>{
+            socket.off('message',(message)=>{handleMsg(message)});
+        }
+
+    },[messages])
+
+
     const sendMessage = (event)=>{
         event.preventDefault();
         if(message){
