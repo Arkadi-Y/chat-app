@@ -31,22 +31,26 @@ const Chat = ({location}) => {
         console.log("handle msg",msg);
         setMessages([...messages,msg])
     }
-
-    useEffect(()=>{
-        socket.on('message',(message)=>{handleMsg(message)});
-        return()=>{
-            socket.off('message',(message)=>{handleMsg(message)});
-        }
-
-    },[messages])
-
-
     const sendMessage = (event)=>{
         event.preventDefault();
         if(message){
             socket.emit('sendMessage',message,()=>setMessage(''))
         }
     }
+    useEffect(()=>{
+        try{
+        socket.on('message',(msg)=>{handleMsg(msg)});
+        }catch(error){
+            console.log(error)
+        }
+        return()=>{
+            socket.off('message',(msg)=>{handleMsg(msg)});
+        }
+
+    },[messages])
+
+
+    
     console.log(message,messages)
     return (
         <div className="outer-container">
